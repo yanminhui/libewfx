@@ -1,7 +1,7 @@
 /*
  * Export media data from EWF files to a file
  *
- * Copyright (C) 2006-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -309,7 +309,7 @@ int main( int argc, char * const argv[] )
 	     _IONBF,
 	     &error ) != 1 )
 	{
-		ewftools_output_version_fprint(
+		ewfoutput_version_fprint(
 		 stderr,
 		 program );
 
@@ -332,7 +332,7 @@ int main( int argc, char * const argv[] )
 	     _O_BINARY ) == -1 )
 #endif
 	{
-		ewftools_output_version_fprint(
+		ewfoutput_version_fprint(
 		 stderr,
 		 program );
 
@@ -352,7 +352,7 @@ int main( int argc, char * const argv[] )
 		{
 			case (system_integer_t) '?':
 			default:
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stderr,
 				 program );
 
@@ -397,7 +397,7 @@ int main( int argc, char * const argv[] )
 				break;
 
 			case (system_integer_t) 'h':
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stderr,
 				 program );
 
@@ -457,11 +457,11 @@ int main( int argc, char * const argv[] )
 				break;
 
 			case (system_integer_t) 'V':
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stderr,
 				 program );
 
-				ewftools_output_copyright_fprint(
+				ewfoutput_copyright_fprint(
 				 stderr );
 
 				return( EXIT_SUCCESS );
@@ -479,7 +479,7 @@ int main( int argc, char * const argv[] )
 	}
 	if( optind == argc )
 	{
-		ewftools_output_version_fprint(
+		ewfoutput_version_fprint(
 		 stderr,
 		 program );
 
@@ -492,7 +492,7 @@ int main( int argc, char * const argv[] )
 
 		goto on_error;
 	}
-	ewftools_output_version_fprint(
+	ewfoutput_version_fprint(
 	 stderr,
 	 program );
 
@@ -874,7 +874,6 @@ int main( int argc, char * const argv[] )
 	}
 	if( option_number_of_jobs != NULL )
 	{
-#if defined( HAVE_MULTI_THREAD_SUPPORT )
 		result = export_handle_set_number_of_threads(
 			  ewfexport_export_handle,
 			  option_number_of_jobs,
@@ -891,21 +890,17 @@ int main( int argc, char * const argv[] )
 		else if( ( result == 0 )
 		      || ( ewfexport_export_handle->number_of_threads > (int) 32 ) )
 		{
+#if defined( HAVE_MULTI_THREAD_SUPPORT )
 			ewfexport_export_handle->number_of_threads = 4;
+#else
+			ewfexport_export_handle->number_of_threads = 0;
+#endif
 
 			fprintf(
 			 stderr,
 			 "Unsupported number of jobs (threads) defaulting to: %d.\n",
 			 ewfexport_export_handle->number_of_threads );
 		}
-#else
-		ewfexport_export_handle->number_of_threads = 0;
-
-		fprintf(
-		 stderr,
-		 "Unsupported number of jobs (threads) defaulting to: %d.\n",
-		 ewfexport_export_handle->number_of_threads );
-#endif
 	}
 	if( option_additional_digest_types != NULL )
 	{

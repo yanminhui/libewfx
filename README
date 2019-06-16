@@ -1,3 +1,7 @@
+**libewfx** is a library that based on [libewf](https://github.com/libyal/libewf/releases/tag/20171104) to access the Expert Witness Compression Format (EWF).
+
+---
+
 libewf is a library to access the Expert Witness Compression Format (EWF).
 
 Project information:

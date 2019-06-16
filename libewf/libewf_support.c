@@ -1,7 +1,7 @@
 /*
  * Support functions
  *
- * Copyright (C) 2006-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -414,7 +414,13 @@ int libewf_check_file_signature_file_io_handle(
 		 "%s: unable to seek file header offset: 0.",
 		 function );
 
-		goto on_error;
+		if( file_io_handle_is_open == 0 )
+		{
+			libbfio_handle_close(
+			 file_io_handle,
+			 error );
+		}
+		return( -1 );
 	}
 	read_count = libbfio_handle_read_buffer(
 	              file_io_handle,
@@ -431,7 +437,11 @@ int libewf_check_file_signature_file_io_handle(
 		 "%s: unable to read signature.",
 		 function );
 
-		goto on_error;
+		libbfio_handle_close(
+		 file_io_handle,
+		 NULL );
+
+		return( -1 );
 	}
 	if( file_io_handle_is_open == 0 )
 	{
@@ -446,7 +456,7 @@ int libewf_check_file_signature_file_io_handle(
 			 "%s: unable to close file.",
 			 function );
 
-			goto on_error;
+			return( -1 );
 		}
 	}
 	/* The number of EWF segment files will be the largest
@@ -487,15 +497,6 @@ int libewf_check_file_signature_file_io_handle(
 		return( 1 );
 	}
 	return( 0 );
-
-on_error:
-	if( file_io_handle_is_open == 0 )
-	{
-		libbfio_handle_close(
-		 file_io_handle,
-		 NULL );
-	}
-	return( -1 );
 }
 
 /* Globs the segment files according to the EWF naming schema

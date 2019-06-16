@@ -1,7 +1,7 @@
 /*
  * Info handle
  *
- * Copyright (C) 2006-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -2774,8 +2774,7 @@ int info_handle_media_information_fprint(
 		}
 		else
 		{
-/* TODO remove conditional compile after tests are fixed */
-#if defined( HAVE_DEBUG_OUTPUT ) && defined( TODO )
+#if defined( HAVE_VERBOSE_OUTPUT )
 			if( info_handle->output_format == INFO_HANDLE_OUTPUT_FORMAT_TEXT )
 			{
 				fprintf(
@@ -2915,8 +2914,7 @@ int info_handle_media_information_fprint(
 				result = -1;
 			}
 		}
-/* TODO remove conditional compile after tests are fixed */
-#if defined( HAVE_DEBUG_OUTPUT ) && defined( TODO )
+#if defined( HAVE_DEBUG_OUTPUT )
 		if( libewf_handle_get_chunk_size(
 		     info_handle->input_handle,
 		     &value_32bit,

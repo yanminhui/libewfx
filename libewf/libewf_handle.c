@@ -1,7 +1,7 @@
 /*
  * Handle functions
  *
- * Copyright (C) 2006-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -35,8 +35,6 @@
 #include "libewf_debug.h"
 #include "libewf_definitions.h"
 #include "libewf_device_information.h"
-#include "libewf_digest_section.h"
-#include "libewf_error2_section.h"
 #include "libewf_file_entry.h"
 #include "libewf_handle.h"
 #include "libewf_hash_sections.h"
@@ -52,15 +50,9 @@
 #include "libewf_libfcache.h"
 #include "libewf_libfdata.h"
 #include "libewf_libfvalue.h"
-#include "libewf_ltree_section.h"
-#include "libewf_md5_hash_section.h"
 #include "libewf_restart_data.h"
-#include "libewf_section.h"
-#include "libewf_section_descriptor.h"
 #include "libewf_sector_range.h"
 #include "libewf_segment_file.h"
-#include "libewf_session_section.h"
-#include "libewf_sha1_hash_section.h"
 #include "libewf_single_file_entry.h"
 #include "libewf_single_file_tree.h"
 #include "libewf_single_files.h"
@@ -211,7 +203,7 @@ int libewf_handle_initialize(
 		 error,
 		 LIBCERROR_ERROR_DOMAIN_RUNTIME,
 		 LIBCERROR_RUNTIME_ERROR_INITIALIZE_FAILED,
-		 "%s: unable to initialize read/write lock.",
+		 "%s: unable to intialize read/write lock.",
 		 function );
 
 		goto on_error;
@@ -1626,21 +1618,21 @@ int libewf_internal_handle_open_read_segment_file_section_data(
      libcerror_error_t **error )
 {
 	libewf_header_sections_t *header_sections = NULL;
-	libewf_section_descriptor_t *section      = NULL;
+	libewf_section_t *section                 = NULL;
 	libfcache_cache_t *sections_cache         = NULL;
 	uint8_t *string_data                      = NULL;
 	static char *function                     = "libewf_internal_handle_open_read_segment_file_section_data";
+	off64_t section_data_offset               = 0;
 	size_t string_data_size                   = 0;
 	ssize_t read_count                        = 0;
-	off64_t section_data_offset               = 0;
-	int header_section_found                  = 0;
 	int initialize_chunk_values               = 0;
+	int header_section_found                  = 0;
 	int number_of_sections                    = 0;
-	int read_table_sections                   = 0;
-	int result                                = 0;
 	int section_index                         = 0;
 	int set_identifier_change                 = 0;
 	int single_files_section_found            = 0;
+	int read_table_sections                   = 0;
+	int result                                = 0;
 
 #if defined( HAVE_VERBOSE_OUTPUT )
 	int known_section                         = 0;
@@ -1761,7 +1753,7 @@ int libewf_internal_handle_open_read_segment_file_section_data(
 		if( libfdata_list_get_element_value_by_index(
 		     segment_file->sections_list,
 		     (intptr_t *) file_io_pool,
-		     (libfdata_cache_t *) sections_cache,
+		     sections_cache,
 		     segment_file->device_information_section_index,
 		     (intptr_t **) &section,
 		     0,
@@ -1881,7 +1873,7 @@ int libewf_internal_handle_open_read_segment_file_section_data(
 		if( libfdata_list_get_element_value_by_index(
 		     segment_file->sections_list,
 		     (intptr_t *) file_io_pool,
-		     (libfdata_cache_t *) sections_cache,
+		     sections_cache,
 		     section_index,
 		     (intptr_t **) &section,
 		     0,
@@ -2151,7 +2143,7 @@ int libewf_internal_handle_open_read_segment_file_section_data(
 					break;
 
 				case LIBEWF_SECTION_TYPE_MD5_HASH:
-					read_count = libewf_md5_hash_section_read(
+					read_count = libewf_section_md5_hash_read(
 						      section,
 						      internal_handle->io_handle,
 						      file_io_pool,
@@ -2166,7 +2158,7 @@ int libewf_internal_handle_open_read_segment_file_section_data(
 					break;
 
 				case LIBEWF_SECTION_TYPE_SHA1_HASH:
-					read_count = libewf_sha1_hash_section_read(
+					read_count = libewf_section_sha1_hash_read(
 						      section,
 						      internal_handle->io_handle,
 						      file_io_pool,
@@ -2495,7 +2487,7 @@ int libewf_internal_handle_open_read_segment_file_section_data(
 					}
 				}
 #endif
-				read_count = libewf_digest_section_read(
+				read_count = libewf_section_digest_read(
 					      section,
 				              internal_handle->io_handle,
 					      file_io_pool,

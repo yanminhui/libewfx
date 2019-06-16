@@ -1,7 +1,7 @@
 /*
  * Verification handle
  *
- * Copyright (C) 2006-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -210,11 +210,9 @@ int verification_handle_initialize(
 	( *verification_handle )->use_chunk_data_functions = use_chunk_data_functions;
 	( *verification_handle )->header_codepage          = LIBEWF_CODEPAGE_ASCII;
 	( *verification_handle )->process_buffer_size      = EWFCOMMON_PROCESS_BUFFER_SIZE;
+	( *verification_handle )->number_of_threads        = 4;
 	( *verification_handle )->notify_stream            = VERIFICATION_HANDLE_NOTIFY_STREAM;
 
-#if defined( HAVE_MULTI_THREAD_SUPPORT )
-	( *verification_handle )->number_of_threads        = 4;
-#endif
 	return( 1 );
 
 on_error:
@@ -1660,7 +1658,7 @@ int verification_handle_verify_input(
 	if( verification_handle->number_of_threads != 0 )
 	{
 		libcerror_error_set(
-		 error,
+		 &error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
 		 "%s: multi-threading not supported.",
@@ -1703,7 +1701,7 @@ int verification_handle_verify_input(
 #if defined( HAVE_MULTI_THREAD_SUPPORT )
 	if( verification_handle->number_of_threads != 0 )
 	{
-		maximum_number_of_queued_items = 1 + (int) ( ( 512 * 1024 * 1024 ) / process_buffer_size );
+		maximum_number_of_queued_items = 1 + ( ( 512 * 1024 * 1024 ) / process_buffer_size );
 
 		if( libcthreads_thread_pool_create(
 		     &( verification_handle->process_thread_pool ),

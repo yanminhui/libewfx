@@ -1,7 +1,7 @@
 /*
  * Storage media buffer
  *
- * Copyright (C) 2006-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -22,7 +22,6 @@
 #include <common.h>
 #include <memory.h>
 
-#include "ewftools_libcdata.h"
 #include "ewftools_libcerror.h"
 #include "ewftools_libcthreads.h"
 #include "ewftools_libewf.h"
@@ -302,7 +301,7 @@ int storage_media_buffer_get_data(
 }
 
 /* Compares two storage media buffers
- * Returns LIBCDATA_COMPARE_LESS, LIBCDATA_COMPARE_EQUAL, LIBCDATA_COMPARE_GREATER
+ * Returns LIBCTHREADS_COMPARE_LESS, LIBCTHREADS_COMPARE_EQUAL, LIBCTHREADS_COMPARE_GREATER
  * if successful or -1 on error
  */
 int storage_media_buffer_compare(
@@ -336,13 +335,13 @@ int storage_media_buffer_compare(
 	}
 	if( first_buffer->storage_media_offset < second_buffer->storage_media_offset )
 	{
-		return( LIBCDATA_COMPARE_LESS ); 
+		return( LIBCTHREADS_COMPARE_LESS ); 
 	}
 	else if( first_buffer->storage_media_offset > second_buffer->storage_media_offset )
 	{
-		return( LIBCDATA_COMPARE_GREATER ); 
+		return( LIBCTHREADS_COMPARE_GREATER ); 
 	}
-	return( LIBCDATA_COMPARE_EQUAL ); 
+	return( LIBCTHREADS_COMPARE_EQUAL ); 
 }
 
 /* Reads a storage media buffer from the input handle

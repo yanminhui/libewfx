@@ -1,7 +1,7 @@
 /*
  * Reads data from a stdin and writes it in EWF format
  *
- * Copyright (C) 2006-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -362,7 +362,7 @@ ssize_t ewfacquirestream_read_chunk(
 			input_read_count = _read(
 			                    input_file_descriptor,
 			                    &( ( storage_media_buffer->raw_buffer )[ buffer_offset ] ),
-			                    (unsigned int) input_read_size );
+			                    input_read_size );
 #else
 			input_read_count = read(
 			                    input_file_descriptor,
@@ -510,11 +510,8 @@ int ewfacquirestream_read_input(
 	ssize_t process_count                        = 0;
 	ssize_t write_count                          = 0;
 	uint8_t storage_media_buffer_mode            = 0;
-	int status                                   = PROCESS_STATUS_COMPLETED;
-
-#if defined( HAVE_MULTI_THREAD_SUPPORT )
 	int maximum_number_of_queued_items           = 0;
-#endif
+	int status                                   = PROCESS_STATUS_COMPLETED;
 
 	if( imaging_handle == NULL )
 	{
@@ -553,7 +550,7 @@ int ewfacquirestream_read_input(
 	if( imaging_handle->number_of_threads != 0 )
 	{
 		libcerror_error_set(
-		 error,
+		 &error,
 		 LIBCERROR_ERROR_DOMAIN_ARGUMENTS,
 		 LIBCERROR_ARGUMENT_ERROR_UNSUPPORTED_VALUE,
 		 "%s: multi-threading not supported.",
@@ -607,7 +604,7 @@ int ewfacquirestream_read_input(
 #if defined( HAVE_MULTI_THREAD_SUPPORT )
 	if( imaging_handle->number_of_threads != 0 )
 	{
-		maximum_number_of_queued_items = 1 + (int) ( ( 512 * 1024 * 1024 ) / process_buffer_size );
+		maximum_number_of_queued_items = 1 + ( ( 512 * 1024 * 1024 ) / process_buffer_size );
 
 		if( libcthreads_thread_pool_create(
 		     &( imaging_handle->process_thread_pool ),
@@ -1267,7 +1264,7 @@ int main( int argc, char * const argv[] )
 	     _IONBF,
 	     &error ) != 1 )
 	{
-		ewftools_output_version_fprint(
+		ewfoutput_version_fprint(
 		 stdout,
 		 program );
 
@@ -1290,7 +1287,7 @@ int main( int argc, char * const argv[] )
 	     _O_BINARY ) == -1 )
 #endif
 	{
-		ewftools_output_version_fprint(
+		ewfoutput_version_fprint(
 		 stdout,
 		 program );
 
@@ -1313,7 +1310,7 @@ int main( int argc, char * const argv[] )
 		{
 			case (system_integer_t) '?':
 			default:
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stdout,
 				 program );
 
@@ -1378,7 +1375,7 @@ int main( int argc, char * const argv[] )
 				break;
 
 			case (system_integer_t) 'h':
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stdout,
 				 program );
 
@@ -1453,11 +1450,11 @@ int main( int argc, char * const argv[] )
 				break;
 
 			case (system_integer_t) 'V':
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stdout,
 				 program );
 
-				ewftools_output_copyright_fprint(
+				ewfoutput_copyright_fprint(
 				 stdout );
 
 				return( EXIT_SUCCESS );
@@ -1473,7 +1470,7 @@ int main( int argc, char * const argv[] )
 				break;
 		}
 	}
-	ewftools_output_version_fprint(
+	ewfoutput_version_fprint(
 	 stdout,
 	 program );
 
@@ -1953,7 +1950,6 @@ int main( int argc, char * const argv[] )
 	}
 	if( option_number_of_jobs != NULL )
 	{
-#if defined( HAVE_MULTI_THREAD_SUPPORT )
 		result = imaging_handle_set_number_of_threads(
 			  ewfacquirestream_imaging_handle,
 			  option_number_of_jobs,
@@ -1970,21 +1966,17 @@ int main( int argc, char * const argv[] )
 		else if( ( result == 0 )
 		      || ( ewfacquirestream_imaging_handle->number_of_threads > (int) 32 ) )
 		{
+#if defined( HAVE_MULTI_THREAD_SUPPORT )
 			ewfacquirestream_imaging_handle->number_of_threads = 4;
+#else
+			ewfacquirestream_imaging_handle->number_of_threads = 0;
+#endif
 
 			fprintf(
 			 stderr,
 			 "Unsupported number of jobs (threads) defaulting to: %d.\n",
 			 ewfacquirestream_imaging_handle->number_of_threads );
 		}
-#else
-		ewfacquirestream_imaging_handle->number_of_threads = 0;
-
-		fprintf(
-		 stderr,
-		 "Unsupported number of jobs (threads) defaulting to: %d.\n",
-		 ewfacquirestream_imaging_handle->number_of_threads );
-#endif
 	}
 	if( option_additional_digest_types != NULL )
 	{

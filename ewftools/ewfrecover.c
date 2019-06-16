@@ -1,7 +1,7 @@
 /*
  * Exports corrupt EWF files to new files
  *
- * Copyright (C) 2006-2019, Joachim Metz <joachim.metz@gmail.com>
+ * Copyright (C) 2006-2017, Joachim Metz <joachim.metz@gmail.com>
  *
  * Refer to AUTHORS for acknowledgements.
  *
@@ -198,7 +198,7 @@ int main( int argc, char * const argv[] )
 	     _IONBF,
 	     &error ) != 1 )
 	{
-		ewftools_output_version_fprint(
+		ewfoutput_version_fprint(
 		 stderr,
 		 program );
 
@@ -221,7 +221,7 @@ int main( int argc, char * const argv[] )
 	     _O_BINARY ) == -1 )
 #endif
 	{
-		ewftools_output_version_fprint(
+		ewfoutput_version_fprint(
 		 stderr,
 		 program );
 
@@ -244,7 +244,7 @@ int main( int argc, char * const argv[] )
 		{
 			case (system_integer_t) '?':
 			default:
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stderr,
 				 program );
 
@@ -264,7 +264,7 @@ int main( int argc, char * const argv[] )
 				break;
 
 			case (system_integer_t) 'h':
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stderr,
 				 program );
 
@@ -299,11 +299,11 @@ int main( int argc, char * const argv[] )
 				break;
 
 			case (system_integer_t) 'V':
-				ewftools_output_version_fprint(
+				ewfoutput_version_fprint(
 				 stderr,
 				 program );
 
-				ewftools_output_copyright_fprint(
+				ewfoutput_copyright_fprint(
 				 stderr );
 
 				return( EXIT_SUCCESS );
@@ -316,7 +316,7 @@ int main( int argc, char * const argv[] )
 	}
 	if( optind == argc )
 	{
-		ewftools_output_version_fprint(
+		ewfoutput_version_fprint(
 		 stderr,
 		 program );
 
@@ -329,7 +329,7 @@ int main( int argc, char * const argv[] )
 
 		goto on_error;
 	}
-	ewftools_output_version_fprint(
+	ewfoutput_version_fprint(
 	 stderr,
 	 program );
 
