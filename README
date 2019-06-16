@@ -10,7 +10,7 @@ Features:
 Build:
 
 * GNU Linux / MAC: run 'make install' release on 'stage' directory.
-* TODO: Windows: run 'nmake -f makefile.msc install' on 'stage' directory.
+* TODO: Windows: run 'nmake -f makefile.msc install' release on 'stage' directory.
 
 ---
 
