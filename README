@@ -1,6 +1,18 @@
-Libewfx is a library that based on [libewf](https://github.com/libyal/libewf/releases/tag/20171104) to access the Expert Witness Compression Format (EWF).
+libewfx is a library that based on libewf to access the Expert Witness Compression Format (EWF).
 
------------------------------------------------------------------------------------------------
+Features:
+
+* TODO: Wrap libewf as libewfx by modern C++ 
+* TODO: Support read device or file to aliyun OSS
+  * OSS (aliyun Object Storage Service)
+* Libewf release on 20171104: https://github.com/libyal/libewf/releases/tag/20171104
+
+Build:
+
+* GNU Linux / MAC: run 'make install' release on 'stage' directory.
+* TODO: Windows: run 'nmake -f makefile.msc install' on 'stage' directory.
+
+---
 
 libewf is a library to access the Expert Witness Compression Format (EWF).
 
