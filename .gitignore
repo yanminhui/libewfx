@@ -119,7 +119,7 @@ stamp-h[1-9]
 /libewf.pc
 /libewf.spec
 /libewf/libewf.rc
-/libewf/libewf_definitions.h
+#/libewf/libewf_definitions.h
 /pyewf-python[23]/*.[ch]
 /ewf.net/ewf.net.rc
 /ewftools/*.exe
