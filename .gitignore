@@ -108,14 +108,14 @@ stamp-h[1-9]
 /ylwrap
 
 # Project specific files
-/common/config.h
+#/common/config.h
 /common/config.h.in
-/common/types.h
+#/common/types.h
 /dpkg/changelog
-/include/libewf.h
-/include/libewf/definitions.h
-/include/libewf/features.h
-/include/libewf/types.h
+#/include/libewf.h
+#/include/libewf/definitions.h
+#/include/libewf/features.h
+#/include/libewf/types.h
 /libewf.pc
 /libewf.spec
 /libewf/libewf.rc
