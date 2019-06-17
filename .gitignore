@@ -28,7 +28,7 @@
 .deps
 .libs
 INSTALL
-Makefile
+# Makefile
 Makefile.bcc
 Makefile.in
 stamp-h[1-9]
@@ -176,23 +176,23 @@ stamp-h[1-9]
 /tests/tmp*
 
 # Local library dependencies specific files
-/libbfio
-/libcaes
-/libcdata
-/libcdatetime
-/libcerror
-/libcfile
-/libclocale
-/libcnotify
-/libcpath
-/libcsplit
-/libcthreads
-/libfcache
-/libfdata
-/libfguid
-/libfvalue
-/libhmac
-/libodraw
-/libsmdev
-/libsmraw
-/libuna
+#/libbfio
+#/libcaes
+#/libcdata
+#/libcdatetime
+#/libcerror
+#/libcfile
+#/libclocale
+#/libcnotify
+#/libcpath
+#/libcsplit
+#/libcthreads
+#/libfcache
+#/libfdata
+#/libfguid
+#/libfvalue
+#/libhmac
+#/libodraw
+#/libsmdev
+#/libsmraw
+#/libuna
